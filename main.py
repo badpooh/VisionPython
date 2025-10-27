@@ -1,20 +1,56 @@
 import uvicorn
 from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from typing import List, Any
 
 from function.func_ocr import PaddleOCRManager
+from function.func_connection import ConnectionManager
 
 ocr_manager = PaddleOCRManager()
+conn_manager = ConnectionManager()
 
 app = FastAPI()
 
-# 2. 요청 본문(Request Body)의 데이터 구조를 정의합니다.
-#    Java가 보내줄 JSON의 형식을 미리 알려주는 역할을 합니다.
+@app.get("/health")
+def health():
+    return {"status": "ok"}
+
+class ConnectionRequest(BaseModel):
+    ip_address: str = Field(alias="ip")
+    touch_port: int
+    setup_port: int
+
+    class Config:
+        populate_by_name = True
+
+class DisconnectionRequest(BaseModel):
+    message: str
+
+@app.post("/connect")
+async def connect_modbus(request: ConnectionRequest):
+    try:
+        conn_manager.ip_connect(request.ip_address)
+        conn_manager.tp_update(request.touch_port)
+        conn_manager.sp_update(request.setup_port)
+        conn_manager.start_monitoring()
+        if conn_manager.is_connected:
+            return {"status": "success", "message": "Modbus TCP connected and monitoring started."}
+        else:
+            raise HTTPException(status_code=500, detail="Failed to establish Modbus TCP connection.")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/disconnect")
+async def disconnect_modbus():
+    try:
+        conn_manager.tcp_disconnect()
+        return {"status": "success", "message": "Modbus TCP disconnected."}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
 class OcrRequest(BaseModel):
     image_path: str
     roi_keys: List[Any]
-
 
 # 3. POST 요청을 처리할 API 엔드포인트를 정의합니다.
 @app.post("/ocr")
@@ -37,4 +73,4 @@ async def ocr_endpoint(request_data: OcrRequest):
 if __name__ == '__main__':
     # 7. uvicorn 서버를 사용하여 앱을 실행합니다.
     #    다른 PC(Java가 실행되는 PC)에서 접근 가능하도록 host='0.0.0.0'으로 설정합니다.
-    uvicorn.run("main:app", host="0.0.0.0", port=5000, reload=True)
+    uvicorn.run("main:app", host="0.0.0.0", port=5000, reload=False)
