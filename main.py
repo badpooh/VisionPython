@@ -5,9 +5,12 @@ from typing import List, Any
 
 from function.func_ocr import PaddleOCRManager
 from function.func_connection import ConnectionManager
+from function.func_modbus import ModbusLabels
+
 
 ocr_manager = PaddleOCRManager()
 conn_manager = ConnectionManager()
+modbus_manager = ModbusLabels()
 
 app = FastAPI()
 
@@ -47,6 +50,34 @@ async def disconnect_modbus():
         return {"status": "success", "message": "Modbus TCP disconnected."}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+    
+class InitializationRequest(BaseModel):
+    message: str
+
+@app.post("/Initialize")
+async def initialize_modbus(request: InitializationRequest):
+    try:
+        if conn_manager.is_connected:
+            modbus_manager.setup_initialization()
+        else:
+            raise HTTPException(status_code=500, detail="Modbus TCP is not connected.")
+        return {"status": "success", "message": "Modbus TCP initialized."}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    
+class InitializationRequest(BaseModel):
+    message: str
+
+@app.post("/test_mode_balance")
+async def modbus_test_mode_balance(request: InitializationRequest):
+    try:
+        if conn_manager.is_connected:
+            modbus_manager.test_mode_balance_setting()
+        else:
+            raise HTTPException(status_code=500, detail="Modbus TCP is not connected.")
+        return {"status": "success", "message": "Modbus TCP initialized."}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 class OcrRequest(BaseModel):
     image_path: str
@@ -71,6 +102,4 @@ async def ocr_endpoint(request_data: OcrRequest):
 
 
 if __name__ == '__main__':
-    # 7. uvicorn 서버를 사용하여 앱을 실행합니다.
-    #    다른 PC(Java가 실행되는 PC)에서 접근 가능하도록 host='0.0.0.0'으로 설정합니다.
     uvicorn.run("main:app", host="0.0.0.0", port=5000, reload=False)
