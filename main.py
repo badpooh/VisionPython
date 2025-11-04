@@ -1,21 +1,28 @@
 import uvicorn
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
-from typing import List, Any
+from typing import Optional
 import time
 import os
 from datetime import datetime
+import threading
 
 from function.func_ocr import PaddleOCRManager
 from function.func_connection import ConnectionManager
 from function.func_modbus import ModbusLabels
 from demo_test.demo_process import DemoTest
+from function.func_process import Canceled, CancelToken
 
 demo_test = DemoTest()
 
 ocr_manager = PaddleOCRManager()
 conn_manager = ConnectionManager()
 modbus_manager = ModbusLabels()
+
+_cancel = CancelToken()
+_worker: Optional[threading.Thread] = None
+_lock = threading.Lock()
+_last_status = {"running": False, "message": "idle"}
 
 app = FastAPI()
 
@@ -32,6 +39,12 @@ class ConnectionRequest(BaseModel):
         populate_by_name = True
 
 class DisconnectionRequest(BaseModel):
+    message: str
+
+class InitializationRequest(BaseModel):
+    message: str
+
+class TestProcess(BaseModel):
     message: str
 
 @app.post("/connect")
@@ -55,9 +68,6 @@ async def disconnect_modbus():
         return {"status": "success", "message": "Modbus TCP disconnected."}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
-    
-class InitializationRequest(BaseModel):
-    message: str
 
 @app.post("/Initialize")
 async def initialize_modbus(request: InitializationRequest):
@@ -69,13 +79,9 @@ async def initialize_modbus(request: InitializationRequest):
         return {"status": "success", "message": "Modbus TCP initialized."}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
-    
-class TestProcess(BaseModel):
-    message: str
-
 
 @app.post("/test_mode_balance")
-async def modbus_test_mode_balance(request: TestProcess):
+def modbus_test_mode_balance(request: TestProcess):
 
     current_time = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
     base_save_path = os.path.expanduser(f"./results/{current_time}/")
@@ -89,6 +95,7 @@ async def modbus_test_mode_balance(request: TestProcess):
     print(f"[PATH] search_pattern set to: {search_pattern}")
     try:
         if conn_manager.is_connected:
+            demo_test.clear_cancel_flag()
             modbus_manager.test_mode_balance_setting()
             time.sleep(1)
             demo_test.meter_test_mode_balance(base_save_path, search_pattern)
@@ -97,28 +104,17 @@ async def modbus_test_mode_balance(request: TestProcess):
         return {"status": "success", "message": "Modbus TCP initialized."}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
-
-class OcrRequest(BaseModel):
-    image_path: str
-    roi_keys: List[Any]
-
-# 3. POST 요청을 처리할 API 엔드포인트를 정의합니다.
-@app.post("/ocr")
-async def ocr_endpoint(request_data: OcrRequest):
+    
+@app.post("/stop_test")
+def stop_current_test():
     """
-    Java로부터 이미지 경로와 ROI 정보를 받아 OCR을 수행하고 결과를 반환합니다.
+    현재 실행 중인 demo_test 작업을 중단하도록 신호를 보냅니다.
     """
     try:
-        # 4. Pydantic 모델 덕분에 데이터가 자동으로 검증되고 객체로 변환됩니다.
-        #    이제 request_data.image_path 처럼 직접 속성에 접근할 수 있습니다.
-        ocr_results = ocr_manager.paddleocr_basic(request_data.image_path, request_data.roi_keys)
-        
-        # 5. 결과를 딕셔너리 형태로 반환하면 FastAPI가 자동으로 JSON으로 변환해줍니다.
-        return {"status": "success", "results": ocr_results}
+        demo_test.cancel_test()
+        return {"status": "success", "message": "Test cancellation signal sent."}
     except Exception as e:
-        # 6. 에러가 발생하면 표준 HTTP 에러를 발생시킵니다.
         raise HTTPException(status_code=500, detail=str(e))
-
 
 if __name__ == '__main__':
     uvicorn.run("main:app", host="0.0.0.0", port=5000, reload=False)

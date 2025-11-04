@@ -1,7 +1,0 @@
-Parameter,Value
-Data View Fixed text,"['RMS Current Min Max', 'A B C Average']"
-OCR Errors (Extra),[] (PASS)
-OCR Errors (Missing),[] (PASS)
-Meas Ratio Results,"['2024-08-09 09:48:14 -> PASS', '2024-08-09 09:45:24 -> FAIL', '2024-08-09 09:48:16 -> PASS', '2024-08-09 09:48:15 -> PASS']"
-Timestamp Results,"['2.489 A -> FAIL', '2.500 A -> PASS', '2.496 A -> PASS', '2.493 A -> FAIL']"
-Measurement Results,"['49.8 % -> PASS', '50.0 % -> PASS', '49.9 % -> PASS', '49.9 % -> PASS']"

@@ -107,10 +107,10 @@ class TestModeBalance(Enum):
 				{'low': 20.0, 'high': 30.0, 'unit': "%"},
 				{'low': 20.0, 'high': 30.0, 'unit': "%"}]
 	pow_s = [
-				{'low': 2.500, 'high': 2.900, 'unit': "kVAR"},
-				{'low': 2.500, 'high': 2.900, 'unit': "kVAR"},
-				{'low': 2.500, 'high': 2.900, 'unit': "kVAR"},
-				{'low': 7.500, 'high': 8.700, 'unit': "kVAR"}]
+				{'low': 2.500, 'high': 2.900, 'unit': "kVA"},
+				{'low': 2.500, 'high': 2.900, 'unit': "kVA"},
+				{'low': 2.500, 'high': 2.900, 'unit': "kVA"},
+				{'low': 7.500, 'high': 8.700, 'unit': "kVA"}]
 	pow_s_ratio = [
 				{'low': 49.0, 'high': 51.0, 'unit': "%"},
 				{'low': 49.0, 'high': 51.0, 'unit': "%"},

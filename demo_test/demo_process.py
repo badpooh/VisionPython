@@ -23,6 +23,14 @@ class DemoTest(QObject):
 	def __init__(self):
 		super().__init__()
 		self.accruasm_state = 2 # 초기 상태 설정
+		self.stop_requested = False
+
+	def cancel_test(self):
+		print("[DemoTest] Cancellation signal received!")
+		self.stop_requested = True
+
+	def clear_cancel_flag(self):
+		self.stop_requested = False
 
 	def on_accurasm_checked(self, state):
 		self.accruasm_state = state
@@ -55,6 +63,11 @@ class DemoTest(QObject):
 		Returns:
 			None
 		"""
+
+		if self.stop_requested:
+			print("[DemoTest] Test is stopped by request")
+			return
+
 		time.sleep(0.6)
 		start_time = self.modbus_label.system_time_read()
 		self.touch_manager.screenshot()
@@ -125,6 +138,10 @@ class DemoTest(QObject):
 		- eval_type: SELECTION, INTEGER, FLOAT
 		- title_desc => 임의의 식별자 (setup_ocr_process 호출 시 구분)
 		"""
+		if self.stop_requested:
+			print("[DemoTest] Test is stopped by request")
+			return
+
 		if main_menu is not None:
 			self.touch_manager.touch_menu(main_menu)
 		if side_menu is not None:

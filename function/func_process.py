@@ -1,5 +1,21 @@
 from demo_test.demo_process import DemoTest
 from function.func_modbus import ConnectionManager
+import threading
+
+
+class Canceled(RuntimeError):
+    pass
+
+class CancelToken:
+    def __init__(self):
+        self._evt = threading.Event()
+    def cancel(self):
+        self._evt.set()
+    def is_canceled(self) -> bool:
+        return self._evt.is_set()
+    def wait(self, timeout: float) -> bool:
+        # True면 취소 신호 감지
+        return self._evt.wait(timeout)
 
 class TestProcess:
     
