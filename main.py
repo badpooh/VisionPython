@@ -2,11 +2,16 @@ import uvicorn
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
 from typing import List, Any
+import time
+import os
+from datetime import datetime
 
 from function.func_ocr import PaddleOCRManager
 from function.func_connection import ConnectionManager
 from function.func_modbus import ModbusLabels
+from demo_test.demo_process import DemoTest
 
+demo_test = DemoTest()
 
 ocr_manager = PaddleOCRManager()
 conn_manager = ConnectionManager()
@@ -65,14 +70,28 @@ async def initialize_modbus(request: InitializationRequest):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
     
-class InitializationRequest(BaseModel):
+class TestProcess(BaseModel):
     message: str
 
+
 @app.post("/test_mode_balance")
-async def modbus_test_mode_balance(request: InitializationRequest):
+async def modbus_test_mode_balance(request: TestProcess):
+
+    current_time = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+    base_save_path = os.path.expanduser(f"./results/{current_time}/")
+    os.makedirs(base_save_path, exist_ok=True)
+    ip = conn_manager.SERVER_IP
+
+    image_directory = f"//10.10.20.30/screenshot/{ip}"
+    search_pattern = os.path.join(image_directory, '**/*.png')
+
+    print(f"[PATH] base_save_path set to: {base_save_path}")
+    print(f"[PATH] search_pattern set to: {search_pattern}")
     try:
         if conn_manager.is_connected:
             modbus_manager.test_mode_balance_setting()
+            time.sleep(1)
+            demo_test.meter_test_mode_balance(base_save_path, search_pattern)
         else:
             raise HTTPException(status_code=500, detail="Modbus TCP is not connected.")
         return {"status": "success", "message": "Modbus TCP initialized."}

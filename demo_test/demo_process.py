@@ -15,7 +15,7 @@ image_directory = r"\\10.10.20.30\screenshot"
 paddleocr_func = PaddleOCRManager()
 
 class DemoTest(QObject):
-	 
+	
 	touch_manager = TouchManager()
 	modbus_label = ModbusLabels()
 	eval_manager = Evaluation()
@@ -28,18 +28,18 @@ class DemoTest(QObject):
 		self.accruasm_state = state
 		# print(f"SetupProcess: AccuraSM checked={state}")
 
-	def test_mode_ocr_process(self, 
-					   	base_save_path, 
-						search_pattern,  
-						roi_keys, 
-						correct_answers, 
-						addr_meas,
-						aggre_selection,
-						meas_rules,
-						ratio_rules,
-						addr_timestamp=None,
-						reset_time=None,
-						modbus_unit=None,):
+	def test_mode_ocr_process(self,
+					base_save_path,
+					search_pattern,
+					roi_keys,
+					correct_answers,
+					addr_meas,
+					aggre_selection,
+					meas_rules,
+					ratio_rules,
+					addr_timestamp=None,
+					reset_time=None,
+					modbus_unit=None,):
 		"""
 		Args:
 			base_save_path (str): 결과 저장 디렉토리
@@ -91,26 +91,26 @@ class DemoTest(QObject):
 		time.sleep(0.5)
 
 	def config_setup_action(self,
-					   main_menu=None,
-					   side_menu=None,
-					   data_view=None,
-					   password=None,
-					   popup_btn=None,
-					   number_input=None,
-					   apply_btn=True,
-					   roi_keys=None,
-					   correct_answers=None,
-					   ratio_rules=None,
-						meas_rules=None,
-						addr_meas=None,
-						addr_timestamp=None,
-						aggre_selection=None,
-						reset_time=None,
-						modbus_unit=None,
-					   search_pattern=None,
-					   base_save_path=None,
-					   key_type=None,
-					   ):
+					main_menu=None,
+					side_menu=None,
+					data_view=None,
+					password=None,
+					popup_btn=None,
+					number_input=None,
+					apply_btn=True,
+					roi_keys=None,
+					correct_answers=None,
+					ratio_rules=None,
+					meas_rules=None,
+					addr_meas=None,
+					addr_timestamp=None,
+					aggre_selection=None,
+					reset_time=None,
+					modbus_unit=None,
+					search_pattern=None,
+					base_save_path=None,
+					key_type=None,
+					):
 		"""
 		예시 인자:
 		- main_menu: ConfigTouch.touch_main_menu_1.value
