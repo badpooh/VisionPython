@@ -24,8 +24,10 @@ class ConfigROI(Enum):
     m_pow_demand_fixed_text = ['Demand Active Power Peak', 'A B C Total']
     m_pow_energy_fixed_text = ['Energy Active Reactive Apparent', 'Received Delivered Sum Net']
 
-
-
+    m_anal_vol_symm_fixed_text = ['Volt. Symm. Component L-L L-N Max', 'Positive- Sequence Negative- Sequence']
+    m_anal_vol_unbal_fixed_text = ['Voltage Unbalance' 'NEMA NEMA Negative- Sequence Zero- Sequence']
+    m_anal_curr_symm_fixed_text = ['Curr. Symm. Component Max', 'Positive- Sequence Negative- Sequence Zero- Sequence']
+    m_anal_curr_unbal_fixed_text = ['Current Unbalance MAx' 'NEMA Negative- Sequence Zero- Sequence']
 
     test_mode_balance_title = ['title']
     test_mode_balance_phase = ['a,b,c']

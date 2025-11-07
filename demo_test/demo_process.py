@@ -79,13 +79,13 @@ class DemoTest(QObject):
 
 		
 		demo_test_result, ocr_error, ocr_missing_item, ocr_fixed_text, ocr_ratio_text, ocr_timestamp_text, ocr_measurement_text, modbus_results = self.eval_manager.eval_test_mode_balance(
-			ocr_res=ocr_results, 
-			correct_answers=correct_answers, 
+			ocr_res=ocr_results,
+			correct_answers=correct_answers,
 			ratio_rules=ratio_rules,
 			meas_rules=meas_rules,
 			modbus_meas_value=modbus_meas_result,
 			modbus_timestamp_value=None,
-			reset_time=reset_time, 
+			reset_time=reset_time,
 			image_path=image_path,
 			)
 		self.eval_manager.test_mode_save_csv(
@@ -165,10 +165,10 @@ class DemoTest(QObject):
 
 		if (roi_keys and base_save_path and search_pattern):
 			self.test_mode_ocr_process(
-						base_save_path=base_save_path, 
-						search_pattern=search_pattern, 
-						roi_keys=roi_keys, 
-						correct_answers=correct_answers, 
+						base_save_path=base_save_path,
+						search_pattern=search_pattern,
+						roi_keys=roi_keys,
+						correct_answers=correct_answers,
 						addr_meas=addr_meas,
 						meas_rules=meas_rules,
 						ratio_rules=ratio_rules,
@@ -1275,7 +1275,7 @@ class DemoTest(QObject):
 			side_menu=ConfigTouch.touch_side_menu_3.value,
 			data_view=None,
 			password=None,
-			popup_btn=None, 
+			popup_btn=None,
 			number_input=None,
 			apply_btn=None,
 			roi_keys=default_roi_keys,
@@ -1441,14 +1441,155 @@ class DemoTest(QObject):
 			side_menu=None,
 			data_view=ConfigTouch.touch_toggle_max.value,
 			password=None,
-			popup_btn=None, 
+			popup_btn=None,
 			number_input=None,
 			apply_btn=None,
 			roi_keys=default_roi_keys,
 			correct_answers=ConfigROI.m_pow_demand_fixed_text.value,
 			ratio_rules=tmb.pow_demand_ratio.value,
 			meas_rules=tmb.pow_demand.value,
-			addr_meas=[ConfigMap.addr_meas_demand_max_pa.value, ConfigMap.addr_meas_demand_max_pb.value, ConfigMap.addr_meas_demand_max_pc.value, ConfigMap.addr_mea_demand_max_ptotal.value],
+			addr_meas=[ConfigMap.addr_meas_demand_max_pa.value, ConfigMap.addr_meas_demand_max_pb.value, ConfigMap.addr_meas_demand_max_pc.value, ConfigMap.addr_meas_demand_max_ptotal.value],
+			aggre_selection=255,
+			addr_timestamp=None,
+			reset_time=reset_time,
+			modbus_unit=None,
+			search_pattern=search_pattern,
+			base_save_path=base_save_path,
+			key_type=None,
+			)
+		
+		### Volt.Symm. L-L
+		self.config_setup_action(
+			main_menu=ConfigTouch.touch_main_menu_4.value,
+			side_menu=ConfigTouch.touch_side_menu_4.value,
+			data_view=None,
+			password=None,
+			popup_btn=None,
+			number_input=None,
+			apply_btn=None,
+			roi_keys=default_roi_keys,
+			correct_answers=ConfigROI.m_anal_vol_symm_fixed_text.value,
+			ratio_rules=tmb.anal_vol_symm_ll_ratio.value,
+			meas_rules=tmb.anal_vol_symm_ll.value,
+			addr_meas=[ConfigMap.addr_meas_vol_positive_sequence_ll.value, ConfigMap.addr_meas_vol_negative_sequence_ll.value,],
+			aggre_selection=1,
+			addr_timestamp=None,
+			reset_time=None,
+			modbus_unit=None,
+			search_pattern=search_pattern,
+			base_save_path=base_save_path,
+			key_type=None,
+			)
+		
+		### Volt.Symm. L-L Max
+		reset_time = self.modbus_label.reset_max_min()
+		self.config_setup_action(
+			main_menu=None,
+			side_menu=None,
+			data_view=ConfigTouch.touch_toggle_max.value,
+			password=None,
+			popup_btn=None,
+			number_input=None,
+			apply_btn=None,
+			roi_keys=default_roi_keys,
+			correct_answers=ConfigROI.m_anal_vol_symm_fixed_text.value,
+			ratio_rules=tmb.anal_vol_symm_ll_ratio.value,
+			meas_rules=tmb.anal_vol_symm_ll.value,
+			addr_meas=[ConfigMap.addr_meas_vol_positive_sequence_max_ll.value, ConfigMap.addr_meas_vol_negative_sequence_max_ll.value,],
+			aggre_selection=255,
+			addr_timestamp=None,
+			reset_time=reset_time,
+			modbus_unit=None,
+			search_pattern=search_pattern,
+			base_save_path=base_save_path,
+			key_type=None,
+			)
+		
+		### Volt.Symm. L-N
+		self.config_setup_action(
+			main_menu=None,
+			side_menu=None,
+			data_view=[ConfigTouch.touch_toggle_max.value, ConfigTouch.touch_toggle_thd_ln.value],
+			password=None,
+			popup_btn=None,
+			number_input=None,
+			apply_btn=None,
+			roi_keys=default_roi_keys,
+			correct_answers=ConfigROI.m_anal_vol_symm_fixed_text.value,
+			ratio_rules=tmb.anal_vol_symm_ln_ratio.value,
+			meas_rules=tmb.anal_vol_symm_ln.value,
+			addr_meas=[ConfigMap.addr_meas_vol_positive_sequence_ln.value, ConfigMap.addr_meas_vol_negative_sequence_ln.value, ConfigMap.addr_meas_vol_zero_sequence_ln.value],
+			aggre_selection=1,
+			addr_timestamp=None,
+			reset_time=None,
+			modbus_unit=None,
+			search_pattern=search_pattern,
+			base_save_path=base_save_path,
+			key_type=None,
+			)
+		
+		### Volt.Symm. L-N Max
+		reset_time = self.modbus_label.reset_max_min()
+		self.config_setup_action(
+			main_menu=None,
+			side_menu=None,
+			data_view=ConfigTouch.touch_toggle_max.value,
+			password=None,
+			popup_btn=None,
+			number_input=None,
+			apply_btn=None,
+			roi_keys=default_roi_keys,
+			correct_answers=ConfigROI.m_anal_vol_symm_fixed_text.value,
+			ratio_rules=tmb.anal_vol_symm_ln_ratio.value,
+			meas_rules=tmb.anal_vol_symm_ln.value,
+			addr_meas=[ConfigMap.addr_meas_vol_positive_sequence_ln.value, ConfigMap.addr_meas_vol_negative_sequence_ln.value, ConfigMap.addr_meas_vol_zero_sequence_ln.value],
+			aggre_selection=1,
+			addr_timestamp=None,
+			reset_time=reset_time,
+			modbus_unit=None,
+			search_pattern=search_pattern,
+			base_save_path=base_save_path,
+			key_type=None,
+			)
+		
+		### Volt.Unbal.
+		self.config_setup_action(
+			main_menu=None,
+			side_menu=ConfigTouch.touch_side_menu_5.value,
+			data_view=None,
+			password=None,
+			popup_btn=None,
+			number_input=None,
+			apply_btn=None,
+			roi_keys=default_roi_keys,
+			correct_answers=ConfigROI.m_anal_vol_unbal_fixed_text.value,
+			ratio_rules=tmb.anal_vol_unbal_ratio.value,
+			meas_rules=tmb.anal_vol_unbal.value,
+			addr_meas=[ConfigMap.addr_meas_vol_unbalance_ll.value, ConfigMap.addr_meas_vol_unbalance_ln.value, ConfigMap.addr_meas_vol_negative_unbalance.value, ConfigMap.addr_meas_vol_zero_unbalance.value],
+			aggre_selection=1,
+			addr_timestamp=None,
+			reset_time=None,
+			modbus_unit=None,
+			search_pattern=search_pattern,
+			base_save_path=base_save_path,
+			key_type=None,
+			)
+		
+		### Volt.Unbal. Max
+		reset_time = self.modbus_label.reset_max_min()
+		self.config_setup_action(
+			main_menu=None,
+			side_menu=None,
+			data_view=ConfigTouch.touch_toggle_max.value,
+			password=None,
+			popup_btn=None,
+			number_input=None,
+			apply_btn=None,
+			roi_keys=default_roi_keys,
+			correct_answers=ConfigROI.m_anal_vol_unbal_fixed_text.value,
+			ratio_rules=tmb.anal_vol_unbal_ratio.value,
+			meas_rules=tmb.anal_vol_unbal.value,
+			addr_meas=[ConfigMap.addr_meas_vol_unbalance_ll.value, ConfigMap.addr_meas_vol_unbalance_ln.value, ConfigMap.addr_meas_vol_negative_unbalance.value, ConfigMap.addr_meas_vol_zero_unbalance.value],
 			aggre_selection=255,
 			addr_timestamp=None,
 			reset_time=reset_time,

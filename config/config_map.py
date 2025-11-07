@@ -110,7 +110,21 @@ class ConfigMap(Enum):
     addr_meas_demand_pb = (15180, 2)
     addr_meas_demand_pc = (15182, 2)
     addr_meas_demand_ptotal = (15184, 2)
-
+    addr_meas_vol_positive_sequence_ln = (15146, 2)
+    addr_meas_vol_negative_sequence_ln = (15148, 2)
+    addr_meas_vol_zero_sequence_ln = (15150, 2)
+    addr_meas_vol_positive_sequence_ll = (15152, 2)
+    addr_meas_vol_negative_sequence_ll = (15154, 2)
+    addr_meas_vol_unbalance_ln = (15138, 2)
+    addr_meas_vol_unbalance_ll = (15140, 2)
+    addr_meas_vol_zero_unbalance = (15142, 2)
+    addr_meas_vol_negative_unbalance = (15144, 2)
+    addr_meas_curr_unbalance = (15156, 2)
+    addr_meas_curr_zero_unbalance = (15158, 2)
+    addr_meas_curr_negative_unbalance = (15160, 2)
+    addr_meas_curr_positive_sequence = (15162, 2)
+    addr_meas_curr_negative_sequence = (15164, 2)
+    addr_meas_curr_zero_sequence = (15166, 2)
 
     addr_meas_min_van = (31200, 2)
     addr_meas_min_vbn = (31202, 2)
@@ -231,11 +245,23 @@ class ConfigMap(Enum):
     addr_meas_demand_max_pa = (31174, 2)
     addr_meas_demand_max_pb = (31176, 2)
     addr_meas_demand_max_pc = (31178, 2)
-    addr_mea_demand_max_ptotal = (31180, 2)
+    addr_meas_demand_max_ptotal = (31180, 2)
+    addr_meas_vol_positive_sequence_max_ln = (31148, 2)
+    addr_meas_vol_negative_sequence_max_ln = (31150, 2)
+    addr_meas_vol_zero_sequence_max_ln = (31152, 2)
+    addr_meas_vol_positive_sequence_max_ll = (31154, 2)
+    addr_meas_vol_negative_sequence_max_ll = (31156, 2)
+    addr_meas_vol_unbalance_max_ll = (31136, 2)
+    addr_meas_vol_unbalance_maxln = (31134, 2)
+    addr_meas_vol_zero_unbalance_max = (31138, 2)
+    addr_meas_vol_negative_unbalance_max = (31140, 2)
+    addr_meas_curr_unbalance_max = (31142, 2)
+    addr_meas_curr_zero_unbalance_max = (31144, 2)
+    addr_meas_curr_negative_unbalance_max = (31146, 2)
+    addr_meas_curr_positive_sequence_max = (31158, 2)
+    addr_meas_curr_negative_sequence_max = (31160, 2)
+    addr_meas_curr_zero_sequence_max = (31162, 2)
     
-
-    
-
     ### Measurement Data Min Timestamp ###
     ### FLOAT ###
     addr_timestamp_van = (31500, 2)

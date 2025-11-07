@@ -136,6 +136,43 @@ class TestModeBalance(Enum):
 				{'low': 40.0, 'high': 45.0, 'unit': "%"},
 				{'low': 40.0, 'high': 45.0, 'unit': "%"},
 				{'low': 40.0, 'high': 45.0, 'unit': "%"}]
-
-
-	
+	anal_vol_symm_ll = [
+				{'low': 185.0, 'high': 195.0, 'unit': "V"},
+				{'low': 0.500, 'high': 1.500, 'unit': "V"}]
+	anal_vol_symm_ll_ratio = [
+				{'text': "V1"},
+				{'text': "V2"},]
+	anal_vol_symm_ln = [
+				{'low': 105.0, 'high': 115.0, 'unit': "V"},
+				{'low': 0.400, 'high': 0.700, 'unit': "V"},
+				{'low': 0.200, 'high': 0.700, 'unit': "V"}]
+	anal_vol_symm_ln_ratio = [
+				{'text': "V1"},
+				{'text': "V2"},
+				{'text': "V0"},]
+	anal_vol_unbal = [
+				{'low': 0.0, 'high': 0.5, 'unit': "%"},
+				{'low': 0.0, 'high': 0.8, 'unit': "%"},
+				{'low': 0.2, 'high': 1.5, 'unit': "%"},
+				{'low': 0.2, 'high': 1.5, 'unit': "%"}]
+	anal_vol_unbal_ratio = [
+				{'text': "LL"},
+				{'text': "LN"},
+				{'text': "U2"},
+				{'text': "U0"},]
+	anal_curr_symm = [
+				{'low': 20.00, 'high': 30.00, 'unit': "A"},
+				{'low': 0.030, 'high': 0.200, 'unit': "A"},
+				{'low': 0.030, 'high': 0.200, 'unit': "A"}]
+	anal_curr_symm_ratio = [
+				{'text': "I1"},
+				{'text': "I2"},
+				{'text': "I0"},]
+	anal_curr_unbal = [
+				{'low': 0.0, 'high': 0.5, 'unit': "%"},
+				{'low': 0.1, 'high': 1.0, 'unit': "%"},
+				{'low': 0.1, 'high': 1.0, 'unit': "%"},]
+	anal_currunbal_ratio = [
+				{'text': ""},
+				{'text': "U2"},
+				{'text': "U0"},]
