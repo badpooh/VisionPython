@@ -111,7 +111,7 @@ class Evaluation:
                     upper_limit = rules['high']
                     right_unit = rules['unit']
 
-                    if lower_limit < numeric_value < upper_limit and unit == right_unit:
+                    if lower_limit <= numeric_value <= upper_limit and unit == right_unit:
                         print(f"'{item}' -> PASS")
                         result = f"{item} -> PASS"
                         results_list.append(result)
@@ -264,6 +264,14 @@ class Evaluation:
             found_tuples = re.findall(r'(\d+\.\d+\s+[A-Za-z%]+)|(\d+\.\d+)', ocr_res[3])
             ocr_measurement_text = [item1.strip() + item2.strip() for item1, item2 in found_tuples]
 
+        elif 'Volt. Symm. Component' in ocr_res[0] or 'Voltage Unbalance' in ocr_res[0] or 'Curr. Symm. Component' in  ocr_res[0] or 'Current Unbalance' in ocr_res[0]:
+            ocr_fixed_text = [result.strip() for result in ocr_res[:2]]
+            ocr_ratio_text = re.findall(r'[A-Za-z]+\d?', ocr_res[2])
+            # ocr_ratio_text = [item1 + item2 for item1, item2 in ocr_ratio_text_tuple]
+            ocr_timestamp_text = re.findall(r'\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2}', ocr_res[2])
+            found_tuples = re.findall(r'(\d+\.\d+\s+[A-Za-z%]+)|(\d+\.\d+)', ocr_res[3])
+            ocr_measurement_text = [item1.strip() + item2.strip() for item1, item2 in found_tuples]
+
         else:
             ### 고정 문자 가공 ###
             ocr_fixed_text = [result.strip() for result in ocr_res[:2]]
@@ -298,7 +306,7 @@ class Evaluation:
         meas_results = [] 
         meas_modbus_results = [] 
 
-        ### 검사 
+        ### 검사
         if ocr_ratio_text and ocr_timestamp_text:
             ratio_error, ratio_results = validate_ratio(ocr_ratio_text, ratio_rules)
             all_meas_results.append(ratio_error)

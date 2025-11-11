@@ -252,7 +252,7 @@ class ConfigMap(Enum):
     addr_meas_vol_positive_sequence_max_ll = (31154, 2)
     addr_meas_vol_negative_sequence_max_ll = (31156, 2)
     addr_meas_vol_unbalance_max_ll = (31136, 2)
-    addr_meas_vol_unbalance_maxln = (31134, 2)
+    addr_meas_vol_unbalance_max_ln = (31134, 2)
     addr_meas_vol_zero_unbalance_max = (31138, 2)
     addr_meas_vol_negative_unbalance_max = (31140, 2)
     addr_meas_curr_unbalance_max = (31142, 2)
